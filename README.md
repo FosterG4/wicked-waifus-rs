@@ -1,5 +1,7 @@
 # Wicked Waifus (Fork)
 
+![Screenshot](screenshot.png)
+
 ## About
 
 **This is a fork of the original Wicked Waifus project** - an Wuthering Waves server emulator written in Rust. 
@@ -17,6 +19,7 @@ The goal of this project is to ensure a clean, easy-to-deploy code environment
 - [PostgreSQL](https://www.postgresql.org/download/) (version 12 or higher)
 - [Protoc](https://github.com/protocolbuffers/protobuf/releases) (for protobuf codegen)
 - [Git](https://git-scm.com/downloads) (for cloning the repository)
+- [Git LFS](https://git-lfs.github.com/) (for large file handling)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (optional, for containerized setup)
 
 #### Environment Setup
@@ -53,14 +56,55 @@ Before starting, ensure your environment is properly configured:
    choco install protoc
    ```
 
+4. **Git LFS Setup** (for large game data files):
+   ```sh
+   # Install Git LFS
+   git lfs install
+   
+   # Track large JSON files
+   git lfs track "*.json"
+   git lfs track "data/assets/**/*.json"
+   git lfs track "assets/**/*.json"
+   ```
+
+#### Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=wicked_waifus_db
+
+# Server Ports
+CONFIG_SERVER_PORT=8080
+LOGIN_SERVER_PORT=8081
+GATEWAY_SERVER_PORT=8082
+GAME_SERVER_PORT=8083
+
+# Development Settings
+RUST_LOG=info
+RUST_BACKTRACE=1
+
+# Optional: Custom paths
+DATA_PATH=./data
+CONFIG_PATH=./config
+```
+
 #### Setup Options
 
 ##### Option A: Building from sources (Recommended)
 
 ```sh
-# Clone this fork
+# Clone this fork with LFS files
 git clone --recursive https://github.com/FosterG4/wicked-waifus-rs.git
 cd wicked-waifus-rs
+
+# Pull LFS files
+git lfs pull
 
 # Build all dependencies
 cargo build --release
@@ -80,6 +124,9 @@ If you prefer a containerized setup, you can use Docker:
 # Clone the repository
 git clone --recursive https://github.com/FosterG4/wicked-waifus-rs.git
 cd wicked-waifus-rs
+
+# Pull LFS files
+git lfs pull
 
 # Build Docker images
 # On Windows:
@@ -126,13 +173,21 @@ db_name = "wicked_waifus_db"
 
 **Important**: Make sure to create the database `wicked_waifus_db` before starting the servers. You can do this using PgAdmin or the command line.
 
+##### Server Configuration Files
+
+The following configuration files will be created in your working directory:
+- `configserver.toml` - Configuration server settings
+- `loginserver.toml` - Login server settings  
+- `gateway.toml` - Gateway server settings
+- `gameserver.toml` - Game server settings
+
 #### Data Files
 
-The repository includes necessary data files:
+The repository includes necessary data files managed by Git LFS:
 - Logic JSON collections (`data/assets/game-data/BinData`)
 - Config/hotpatch indexes (`data/assets/config-server`, `data/assets/hotpatch-server`)
 
-Ensure the `data` subdirectory is present in your working directory.
+**Important**: Large files are managed by Git LFS. After cloning, run `git lfs pull` to download all large files.
 
 #### Client Setup
 
@@ -142,11 +197,21 @@ To connect to your server:
 2. Apply the [wicked-waifus-win-patch](https://git.xeondev.com/wickedwaifus/wicked-waifus-win-patch/releases)
 3. Add necessary `.pak` files from [wicked-waifus-pak](https://git.xeondev.com/wickedwaifus/wicked-waifus-pak)
 
+#### Development Tools
+
+This fork includes additional development tools:
+
+- **Database Manager**: `db-manager.ps1` - PowerShell script for database management
+- **Environment Example**: `.env.example` - Template for environment variables
+- **Cursor Rules**: `.cursor/rules/` - Development guidelines and project structure
+
 ### Troubleshooting
 
 - **Build Issues**: Ensure you have the latest Rust toolchain and all dependencies installed
 - **Database Connection**: Verify PostgreSQL is running and credentials are correct
 - **Port Conflicts**: Check that required ports are not in use by other applications
+- **LFS Issues**: Run `git lfs pull` if large files are missing
+- **Environment Variables**: Ensure `.env` file is properly configured
 - **For additional help**: [Visit the original project's Discord](https://discord.gg/reversedrooms)
 
 ### Support
