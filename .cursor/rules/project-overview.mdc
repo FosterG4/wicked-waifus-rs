@@ -1,0 +1,43 @@
+# Wicked Waifus Project Overview
+
+This is an open-source Wuthering Waves server emulator written in Rust. The project uses a microservices architecture with multiple server components communicating via ZeroMQ.
+
+## Project Structure
+
+### Core Architecture
+- **Workspace**: This is a Rust workspace with multiple crates defined in [Cargo.toml](mdc:Cargo.toml)
+- **Microservices**: Multiple server components that work together
+- **ECS System**: Entity Component System for game world simulation
+- **Async Runtime**: Uses Tokio for asynchronous operations
+
+### Server Components
+1. **Config Server** ([wicked-waifus-config-server/](mdc:wicked-waifus-config-server/)) - Configuration management
+2. **Login Server** ([wicked-waifus-login-server/](mdc:wicked-waifus-login-server/)) - Authentication and login
+3. **Gateway Server** ([wicked-waifus-gateway-server/](mdc:wicked-waifus-gateway-server/)) - Client connection gateway
+4. **Game Server** ([wicked-waifus-game-server/](mdc:wicked-waifus-game-server/)) - Core game logic and ECS
+5. **Hotpatch Server** ([wicked-waifus-hotpatch-server/](mdc:wicked-waifus-hotpatch-server/)) - Live updates
+
+### Shared Libraries
+- **Commons** ([wicked-waifus-commons/](mdc:wicked-waifus-commons/)) - Shared utilities, logging, config
+- **Data** ([wicked-waifus-data/](mdc:wicked-waifus-data/)) - Game data structures and loading
+- **Database** ([wicked-waifus-database/](mdc:wicked-waifus-database/)) - Database models and migrations
+- **Network** ([wicked-waifus-network/](mdc:wicked-waifus-network/)) - Network communication layer
+- **Protocol** ([wicked-waifus-protocol-internal/](mdc:wicked-waifus-protocol-internal/)) - Internal communication protocols
+
+### Key Technologies
+- **Tokio**: Async runtime for networking and I/O
+- **Axum**: HTTP framework for web services
+- **ZeroMQ**: Inter-service communication
+- **PostgreSQL**: Database backend
+- **ECS**: Entity Component System for game logic
+- **Protobuf**: Protocol buffers for data serialization
+
+### Development Setup
+- Use [docker-compose.yml](mdc:docker-compose.yml) for containerized development
+- Configuration files are generated on first startup
+- Database migrations are in [wicked-waifus-database/migrations/](mdc:wicked-waifus-database/migrations/)
+- Game data assets are in [data/assets/](mdc:data/assets/)
+description:
+globs:
+alwaysApply: false
+---

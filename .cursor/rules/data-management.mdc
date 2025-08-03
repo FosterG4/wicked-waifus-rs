@@ -1,0 +1,92 @@
+# Data Management
+
+## Game Data Architecture
+
+### Data Structures
+The game data is organized in [wicked-waifus-data/](mdc:wicked-waifus-data/) with comprehensive structures for all game entities:
+
+#### Core Game Entities
+- **Characters**: [role_info.rs](mdc:wicked-waifus-data/src/role_info.rs), [role_level_consume.rs](mdc:wicked-waifus-data/src/role_level_consume.rs)
+- **Weapons**: [weapon_conf.rs](mdc:wicked-waifus-data/src/weapon_conf.rs), [weapon_level.rs](mdc:wicked-waifus-data/src/weapon_level.rs)
+- **Items**: [phantom_item.rs](mdc:wicked-waifus-data/src/phantom_item.rs), [item_exchange_content.rs](mdc:wicked-waifus-data/src/item_exchange_content.rs)
+- **Monsters**: [monster_property_growth.rs](mdc:wicked-waifus-data/src/monster_property_growth.rs), [monster_detection.rs](mdc:wicked-waifus-data/src/monster_detection.rs)
+
+#### Game Systems Data
+- **Gacha**: [gacha.rs](mdc:wicked-waifus-data/src/gacha.rs), [gacha_pool.rs](mdc:wicked-waifus-data/src/gacha_pool.rs)
+- **Combat**: [damage.rs](mdc:wicked-waifus-data/src/damage.rs), [buff.rs](mdc:wicked-waifus-data/src/buff.rs)
+- **Exploration**: [explore_progress.rs](mdc:wicked-waifus-data/src/explore_progress.rs), [explore_tools.rs](mdc:wicked-waifus-data/src/explore_tools.rs)
+- **Quests**: [quest_node_data.rs](mdc:wicked-waifus-data/src/quest_node_data.rs), [adventure_task.rs](mdc:wicked-waifus-data/src/adventure_task.rs)
+
+### Data Loading System
+- **JSON Loading**: `wicked_waifus_data::load_all_json_data()` loads all game data from JSON files
+- **Text Maps**: `wicked_waifus_data::text_map_data::load_textmaps()` for localization
+- **Asset Updates**: [wicked-waifus-asset-updater/](mdc:wicked-waifus-asset-updater/) handles live data updates
+
+### Protobuf Components
+Game data uses protobuf for serialization in [wicked-waifus-data/src/pb_components/](mdc:wicked-waifus-data/src/pb_components/):
+- **Actions**: [action.rs](mdc:wicked-waifus-data/src/pb_components/action.rs)
+- **Attributes**: [attribute.rs](mdc:wicked-waifus-data/src/pb_components/attribute.rs)
+- **Entities**: [entity_state.rs](mdc:wicked-waifus-data/src/pb_components/entity_state.rs)
+- **Rewards**: [reward.rs](mdc:wicked-waifus-data/src/pb_components/reward.rs)
+
+## Database Management
+
+### Database Schema
+- **Migrations**: Located in [wicked-waifus-database/migrations/](mdc:wicked-waifus-database/migrations/)
+- **Models**: Defined in [wicked-waifus-database/src/models.rs](mdc:wicked-waifus-database/src/models.rs)
+- **Configuration**: Database config in [wicked-waifus-database/src/config.rs](mdc:wicked-waifus-database/src/config.rs)
+
+### Database Operations
+- **Connection**: Use `wicked_waifus_database::connect_to()` for database connections
+- **Migrations**: Run with `wicked_waifus_database::run_migrations()`
+- **Connection Pooling**: Managed automatically by sqlx
+
+### Player Data Management
+Player-specific data is organized in [wicked-waifus-game-server/src/logic/player/](mdc:wicked-waifus-game-server/src/logic/player/):
+- **Basic Info**: [basic_info.rs](mdc:wicked-waifus-game-server/src/logic/player/basic_info.rs)
+- **Inventory**: [player_inventory.rs](mdc:wicked-waifus-game-server/src/logic/player/player_inventory.rs)
+- **Location**: [location.rs](mdc:wicked-waifus-game-server/src/logic/player/location.rs)
+- **Progress**: [player_adventure.rs](mdc:wicked-waifus-game-server/src/logic/player/player_adventure.rs)
+
+## Data Patterns
+
+### Serialization
+1. **JSON**: For configuration and static data
+2. **Protobuf**: For network messages and binary data
+3. **Database**: PostgreSQL for persistent storage
+4. **Memory**: In-memory structures for fast access
+
+### Caching Strategy
+1. **Static Data**: Load once at startup, keep in memory
+2. **Player Data**: Cache frequently accessed data
+3. **Session Data**: Keep in memory during session
+4. **Persistence**: Regular saves to database
+
+### Data Validation
+1. **Schema Validation**: Validate data against protobuf schemas
+2. **Business Logic**: Validate game rules and constraints
+3. **Input Sanitization**: Clean and validate user inputs
+4. **Consistency Checks**: Ensure data integrity across systems
+
+### Performance Considerations
+1. **Lazy Loading**: Load data on demand
+2. **Batch Operations**: Group database operations
+3. **Indexing**: Proper database indexes for queries
+4. **Memory Management**: Efficient memory usage for large datasets
+
+## Asset Management
+
+### Game Assets
+- **Binary Data**: Located in [data/assets/game-data/BinData/](mdc:data/assets/game-data/BinData/)
+- **Configuration**: In [data/assets/config/](mdc:data/assets/config/)
+- **Hotpatch**: In [data/assets/hotpatch-server/](mdc:data/assets/hotpatch-server/)
+
+### Asset Updates
+- **Live Updates**: Hotpatch server for runtime updates
+- **Version Control**: Asset versioning and rollback
+- **Distribution**: Asset distribution via HTTP/CDN
+- **Validation**: Asset integrity checks
+description:
+globs:
+alwaysApply: false
+---

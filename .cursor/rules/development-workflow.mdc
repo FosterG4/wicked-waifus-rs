@@ -1,0 +1,75 @@
+# Development Workflow
+
+## Building and Running
+
+### Local Development
+1. **Build all services**: `cargo build`
+2. **Run individual services**:
+   ```bash
+   cargo run --bin wicked-waifus-config-server
+   cargo run --bin wicked-waifus-hotpatch-server
+   cargo run --bin wicked-waifus-login-server
+   cargo run --bin wicked-waifus-gateway-server
+   cargo run --bin wicked-waifus-game-server
+   ```
+
+### Docker Development
+- **Build images**: Use [builder.sh](mdc:builder.sh) or [builder.bat](mdc:builder.bat)
+- **Run services**: `docker compose up -d`
+- **Configuration**: Mount config files from [data/docker/](mdc:data/docker/)
+
+### Database Setup
+- **PostgreSQL**: Required for all services
+- **Migrations**: Located in [wicked-waifus-database/migrations/](mdc:wicked-waifus-database/migrations/)
+- **Initialization**: Scripts in [data/docker/postgres/scripts/](mdc:data/docker/postgres/scripts/)
+
+## Configuration Management
+
+### Service Configuration
+Each service has its own config file:
+- **Config Server**: [configserver.default.toml](mdc:wicked-waifus-config-server/configserver.default.toml)
+- **Login Server**: [loginserver.default.toml](mdc:wicked-waifus-login-server/loginserver.default.toml)
+- **Gateway Server**: [gateway.default.toml](mdc:wicked-waifus-gateway-server/gateway.default.toml)
+- **Game Server**: [gameserver.default.toml](mdc:wicked-waifus-game-server/gameserver.default.toml)
+- **Hotpatch Server**: [hotpatch.default.toml](mdc:wicked-waifus-hotpatch-server/hotpatch.default.toml)
+
+### Database Configuration
+```toml
+[database]
+host = "localhost:5432"
+user_name = "postgres"
+password = ""
+db_name = "wicked_waifus_db"
+```
+
+### Asset Management
+- **Game Data**: Located in [data/assets/game-data/](mdc:data/assets/game-data/)
+- **Config Assets**: In [data/assets/config/](mdc:data/assets/config/)
+- **Hotpatch Assets**: In [data/assets/hotpatch-server/](mdc:data/assets/hotpatch-server/)
+
+## Development Patterns
+
+### Adding New Features
+1. **Data Layer**: Add structures to [wicked-waifus-data/](mdc:wicked-waifus-data/)
+2. **Database**: Create migrations in [wicked-waifus-database/migrations/](mdc:wicked-waifus-database/migrations/)
+3. **Game Logic**: Add components/systems to [wicked-waifus-game-server/src/logic/](mdc:wicked-waifus-game-server/src/logic/)
+4. **Network**: Update protocols in [wicked-waifus-protocol-internal/](mdc:wicked-waifus-protocol-internal/)
+
+### Testing
+- **Unit Tests**: Use `#[cfg(test)]` modules
+- **Integration Tests**: Test service interactions
+- **Database Tests**: Use test database instances
+
+### Debugging
+- **Logging**: Use `tracing` with appropriate levels
+- **Hot Reload**: Use hotpatch server for live updates
+- **Profiling**: Use Rust profiling tools for performance analysis
+
+### Deployment
+- **Production**: Use Docker containers with proper networking
+- **Monitoring**: Implement health checks and metrics
+- **Backup**: Regular database backups and asset versioning
+description:
+globs:
+alwaysApply: false
+---

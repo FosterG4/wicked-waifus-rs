@@ -1,7 +1,5 @@
 # Wicked Waifus (Fork)
 
-![Screenshot](screenshot.png)
-
 ## About
 
 **This is a fork of the original Wicked Waifus project** - an Wuthering Waves server emulator written in Rust. 

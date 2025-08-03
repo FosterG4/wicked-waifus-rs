@@ -1,0 +1,168 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+*.pdb
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Server configuration files (contain sensitive data)
+/hotpatch.toml
+/configserver.toml
+/loginserver.toml
+/gateway.toml
+/gameserver.toml
+
+# Generated protocol files
+/wicked-waifus-protocol-internal/generated
+/wicked-waifus-protocol/generated
+
+# Game data assets (large files)
+/data/assets/config-server
+/data/assets/game-data
+/data/assets/hotpatch-server
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Backup files
+*.bak
+*.backup
+
+# Docker
+.dockerignore
+
+# Cargo
+Cargo.lock
+
+# Documentation build
+doc/
+docs/_build/
+
+# Test artifacts
+test-results/
+coverage/
+
+# Personal notes
+TODO.md
+NOTES.md
+*.note
+
+# Local development files
+local/
+dev/
+development/
+
+# Cache directories
+.cache/
+cache/
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Profiling data
+*.prof
+
+# Generated documentation
+doc/
+target/doc/
+
+# IDE specific files
+*.iml
+*.ipr
+*.iws
+.settings/
+.project
+.classpath
+
+# Windows
+*.lnk
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Temporary folders
+.tmp/
+.temp/
+
+./cursor/rules/

@@ -1,0 +1,88 @@
+# Network Communication
+
+## Architecture Overview
+
+The project uses a multi-layered network architecture with different protocols for different purposes:
+
+### Service Communication (Internal)
+- **ZeroMQ**: Primary inter-service communication
+- **Protocol Buffers**: Message serialization
+- **Service Endpoints**: Defined in configuration files
+
+### Client Communication (External)
+- **UDP**: Gateway server for game client connections
+- **HTTP**: Login and config server endpoints
+- **WebSocket**: Real-time client updates
+
+## Service Communication Patterns
+
+### ZeroMQ Setup
+- **Context**: Shared ZeroMQ context across services
+- **Socket Types**: 
+  - `REQ/REP`: Request-response pattern
+  - `PUB/SUB`: Publish-subscribe for broadcasts
+  - `PUSH/PULL`: Pipeline pattern for data flow
+
+### Message Flow
+1. **Client → Gateway**: UDP packets
+2. **Gateway → Game Server**: ZeroMQ messages
+3. **Game Server → Database**: SQL queries
+4. **Inter-service**: ZeroMQ with protobuf
+
+### Protocol Definitions
+- **Internal Protocol**: [wicked-waifus-protocol-internal/proto/](mdc:wicked-waifus-protocol-internal/proto/)
+  - [internal.proto](mdc:wicked-waifus-protocol-internal/proto/internal.proto): Service-to-service messages
+  - [data.proto](mdc:wicked-waifus-protocol-internal/proto/data.proto): Data structures
+- **External Protocol**: Uses external wicked-waifus-protocol crate
+
+## Network Components
+
+### Gateway Server
+- **UDP Server**: [wicked-waifus-gateway-server/src/udp_server.rs](mdc:wicked-waifus-gateway-server/src/udp_server.rs)
+- **Session Management**: [wicked-waifus-gateway-server/src/session/](mdc:wicked-waifus-gateway-server/src/session/)
+- **Message Handlers**: [wicked-waifus-gateway-server/src/handler/](mdc:wicked-waifus-gateway-server/src/handler/)
+
+### Game Server Network
+- **Gateway Connection**: [wicked-waifus-game-server/src/gateway_connection.rs](mdc:wicked-waifus-game-server/src/gateway_connection.rs)
+- **Service Messages**: [wicked-waifus-game-server/src/service_message_handler.rs](mdc:wicked-waifus-game-server/src/service_message_handler.rs)
+
+### Network Utilities
+- **Client**: [wicked-waifus-network/src/client.rs](mdc:wicked-waifus-network/src/client.rs)
+- **Server**: [wicked-waifus-network/src/server.rs](mdc:wicked-waifus-network/src/server.rs)
+- **Message Handling**: [wicked-waifus-network/src/message.rs](mdc:wicked-waifus-network/src/message.rs)
+
+## Security and Encryption
+
+### Authentication
+- **Login Server**: Handles user authentication
+- **Session Tokens**: JWT-like tokens for session management
+- **Encryption**: AES encryption for sensitive data
+
+### Network Security
+- **TLS**: For HTTP endpoints
+- **Message Signing**: For critical operations
+- **Rate Limiting**: Prevent abuse
+
+## Best Practices
+
+### Message Design
+1. **Idempotency**: Messages should be safe to retry
+2. **Versioning**: Protocol versioning for compatibility
+3. **Validation**: Validate all incoming messages
+4. **Error Handling**: Graceful handling of network errors
+
+### Performance
+1. **Connection Pooling**: Reuse connections where possible
+2. **Message Batching**: Batch small messages when appropriate
+3. **Compression**: Use compression for large payloads
+4. **Monitoring**: Track message latency and throughput
+
+### Reliability
+1. **Retry Logic**: Implement exponential backoff
+2. **Circuit Breakers**: Prevent cascade failures
+3. **Health Checks**: Monitor service availability
+4. **Graceful Degradation**: Handle partial failures
+description:
+globs:
+alwaysApply: false
+---

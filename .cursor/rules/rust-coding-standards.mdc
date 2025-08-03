@@ -1,0 +1,56 @@
+# Rust Coding Standards
+
+## Code Style and Organization
+
+### Module Structure
+- Use `mod.rs` files for module organization
+- Group related functionality in separate modules
+- Export public APIs through `lib.rs` or main module files
+
+### Error Handling
+- Use `anyhow::Result` for application-level errors
+- Use `thiserror` for custom error types
+- Prefer `?` operator over explicit error handling where appropriate
+- Always handle errors gracefully in async contexts
+
+### Async/Await Patterns
+- Use `#[tokio::main]` for main functions
+- Prefer async/await over manual Future handling
+- Use `Arc<Mutex<T>>` or `Arc<RwLock<T>>` for shared state
+- Consider using `dashmap` for concurrent hash maps
+
+### Configuration
+- Use TOML configuration files (see [configserver.default.toml](mdc:wicked-waifus-config-server/configserver.default.toml))
+- Implement `serde::Deserialize` for config structs
+- Use [wicked-waifus-commons::config_util](mdc:wicked-waifus-commons/src/config_util.rs) for config loading
+
+### Logging
+- Use `tracing` for structured logging
+- Initialize logging with [wicked-waifus-commons::logging](mdc:wicked-waifus-commons/src/logging.rs)
+- Use appropriate log levels: `trace`, `debug`, `info`, `warn`, `error`
+
+### Database Operations
+- Use `sqlx` for database operations
+- Run migrations with [wicked-waifus-database::run_migrations](mdc:wicked-waifus-database/src/lib.rs)
+- Use connection pooling for database connections
+
+### ECS System (Game Server)
+- Components should be simple data structures
+- Systems should contain the logic
+- Use the ECS world from [wicked-waifus-game-server/src/logic/ecs/](mdc:wicked-waifus-game-server/src/logic/ecs/)
+- Follow the component patterns in [wicked-waifus-game-server/src/logic/components/](mdc:wicked-waifus-game-server/src/logic/components/)
+
+### Network Communication
+- Use ZeroMQ for inter-service communication
+- Use the network utilities from [wicked-waifus-network/](mdc:wicked-waifus-network/)
+- Handle message serialization with protobuf
+
+### Performance Considerations
+- Use `#[inline]` sparingly and only when profiling shows benefit
+- Prefer `Arc` over `Rc` for shared ownership in async contexts
+- Use `LazyLock` for expensive static initialization
+- Consider using `dashmap` for concurrent access patterns
+description:
+globs:
+alwaysApply: false
+---

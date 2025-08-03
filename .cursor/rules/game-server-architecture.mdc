@@ -1,0 +1,56 @@
+# Game Server Architecture
+
+## ECS (Entity Component System) Structure
+
+The game server uses a custom ECS implementation located in [wicked-waifus-game-server/src/logic/ecs/](mdc:wicked-waifus-game-server/src/logic/ecs/).
+
+### Core ECS Components
+- **World**: Main ECS container in [world.rs](mdc:wicked-waifus-game-server/src/logic/ecs/world.rs)
+- **Entity**: Entity management in [entity.rs](mdc:wicked-waifus-game-server/src/logic/ecs/entity.rs)
+- **Component**: Component storage in [component.rs](mdc:wicked-waifus-game-server/src/logic/ecs/component.rs)
+
+### Game Components
+All game components are in [wicked-waifus-game-server/src/logic/components/](mdc:wicked-waifus-game-server/src/logic/components/):
+- **Position**: Entity positioning and movement
+- **Attribute**: Character attributes and stats
+- **Equipment**: Items and gear
+- **AI**: Artificial intelligence behavior
+- **Combat**: Fighting mechanics
+- **Player**: Player-specific data
+
+### Systems
+Game systems are organized in [wicked-waifus-game-server/src/logic/systems/](mdc:wicked-waifus-game-server/src/logic/systems/):
+- **Movement**: Handles entity movement and positioning
+- **Combat**: Manages fighting mechanics
+- **AI**: Processes AI behavior and decision making
+
+### Game Logic Organization
+- **Handlers**: Request handlers in [wicked-waifus-game-server/src/logic/handler/](mdc:wicked-waifus-game-server/src/logic/handler/)
+- **Player Logic**: Player-specific systems in [wicked-waifus-game-server/src/logic/player/](mdc:wicked-waifus-game-server/src/logic/player/)
+- **Utils**: Utility functions in [wicked-waifus-game-server/src/logic/utils/](mdc:wicked-waifus-game-server/src/logic/utils/)
+
+### Thread Management
+- Logic threads are managed by [thread_mgr.rs](mdc:wicked-waifus-game-server/src/logic/thread_mgr.rs)
+- Use the quadrant system for spatial partitioning
+- Initialize with `logic::utils::quadrant_util::initialize_quadrant_system()`
+
+### Data Loading
+- Game data is loaded from [wicked-waifus-data/](mdc:wicked-waifus-data/)
+- JSON data loading via `wicked_waifus_data::load_all_json_data()`
+- Text maps for localization via `wicked_waifus_data::text_map_data::load_textmaps()`
+
+### Session Management
+- Player sessions managed by [session/manager.rs](mdc:wicked-waifus-game-server/src/session/manager.rs)
+- Gateway connections via [gateway_connection.rs](mdc:wicked-waifus-game-server/src/gateway_connection.rs)
+- Service message handling in [service_message_handler.rs](mdc:wicked-waifus-game-server/src/service_message_handler.rs)
+
+### Key Patterns
+1. **Component Design**: Keep components as simple data structures
+2. **System Logic**: Put game logic in systems, not components
+3. **Thread Safety**: Use appropriate synchronization for shared state
+4. **Performance**: Use spatial partitioning for large worlds
+5. **Data Flow**: Components → Systems → Handlers → Network
+description:
+globs:
+alwaysApply: false
+---
