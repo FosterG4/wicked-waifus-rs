@@ -69,30 +69,26 @@ Before starting, ensure your environment is properly configured:
 
 #### Environment Variables
 
-Create a `.env` file in the project root with the following variables:
+Set up your environment variables using the provided `.env.example` file:
 
-```env
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=your_password
-DB_NAME=wicked_waifus_db
+```sh
+# Copy the example environment file
+cp .env.example .env
 
-# Server Ports
-CONFIG_SERVER_PORT=8080
-LOGIN_SERVER_PORT=8081
-GATEWAY_SERVER_PORT=8082
-GAME_SERVER_PORT=8083
-
-# Development Settings
-RUST_LOG=info
-RUST_BACKTRACE=1
-
-# Optional: Custom paths
-DATA_PATH=./data
-CONFIG_PATH=./config
+# Edit the .env file with your specific settings
+# On Windows:
+notepad .env
+# On Linux/macOS:
+nano .env
+# Or use your preferred editor:
+code .env
 ```
+
+The `.env.example` file contains all necessary environment variables including:
+- Database configuration (host, port, credentials)
+- Server ports for each service
+- Development settings (logging, debug mode)
+- Optional custom paths and URLs
 
 #### Setup Options
 
